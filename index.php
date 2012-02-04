@@ -5,7 +5,7 @@
 	* Here is the basic idea.... 
 	
 	/hash 
-		/add	[generates unique hash, creates storage area mapped to hash, returns hash]
+		/create	[generates unique hash, creates storage area mapped to hash, returns hash]
 				* to reduce lag.. due to ipage sucking
 				* I will have to store each peice of data in a seperate flat file.
 			?callback [callback with data]
@@ -18,6 +18,9 @@
 			?key=value [json=JSON]
 			?callback [callback with message]
 	 * */
-	header("Content-type: text/javascript");
-	echo "alert('here');"
+	require('libs/Model.php');
+	require('libs/View.php');
+	require('libs/Controller.php');
+	require('libs/Bootstrap.php');
+	$app = new Bootstrap();
 ?>
