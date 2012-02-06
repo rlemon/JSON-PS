@@ -28,7 +28,7 @@ class Hash extends Controller {
 	 * @return	loadScript( $jsonData, $callback )
 	 */
 	function get($hash, $callback = null) {
-		$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
+		$file = STORE_PATH . FILE_PRECURSOR . $hash . '.' . FILE_TYPE;
 		if( file_exists( $file ) ) {
 			$this->view->loadScript(file_get_contents($file), $callback);
 		} else {
@@ -45,7 +45,7 @@ class Hash extends Controller {
 	 * @param	callback (optional)
 	 */
 	function set($hash, $callback = null) {
-		$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
+		$file = STORE_PATH . FILE_PRECURSOR . $hash . '.' . FILE_TYPE;
 		if ( file_exists( $file ) ) {
 			if( $pointer = fopen( $file ,'w+') ) {
 				fwrite($pointer, $_GET['data']);
@@ -68,7 +68,7 @@ class Hash extends Controller {
 	function create($callback = null) {
 		while(true) {
 			$hash = md5(mt_rand(0,9999999));
-			$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
+			$file = STORE_PATH . FILE_PRECURSOR . $hash . '.' . FILE_TYPE;
 			if ( !file_exists($file) ) {
 				if( $pointer = fopen($file,'w+') ) {
 					fclose($pointer);
