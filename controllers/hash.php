@@ -1,64 +1,95 @@
 <?php
-
+/**
+ * Hash
+ *
+ * This is the main controller for accessing and storing data
+ * - create
+ * - get
+ * - set
+ *
+ * @package	JSON-PS
+ * @author	rlemon
+ * 
+ * All errors return loadScript('false', $callback);
+ *
+ */
 class Hash extends Controller {
 
 	function __construct() {
 		parent::__construct();
 	}
 
-<<<<<<< HEAD
-	function _default() 
-	{	
-		$this->view->load('store/test.json','my_callback_function');
-=======
-	/*
-	 * /get/<hash>/<callbackfunctionname>
-	 * */
+	/**
+	 * get()
+	 * gets json data
+	 *
+	 * @param	hash
+	 * @param	callback (optional)
+	 * @return	loadScript( $jsonData, $callback )
+	 */
 	function get($hash, $callback = null) {
-		$file = 'store/JSONPS_' . $hash . '.json';
+		$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
 		if( file_exists( $file ) ) {
-			$this->view->load(file_get_contents($file), $callback);
+			$this->view->loadScript(file_get_contents($file), $callback);
 		} else {
-			$this->view->load('{"errors":["message":"The requested hash does not exist!"]}', $callback);
+			$this->view->loadScript('false', $callback);
 		}
 		
 	}
-	/*
-	 * /set/<hash>/<callbackfunctionname>?data=<jsondata>
-	 * */
+
+	/**
+	 * set()
+	 * overwrites all json data in specific hash
+	 *
+	 * @param	hash
+	 * @param	callback (optional)
+	 */
 	function set($hash, $callback = null) {
-		$file = 'store/JSONPS_' . $hash . '.json';
+		$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
 		if ( file_exists( $file ) ) {
-			if( $pointer = fopen('store/JSONPS_' . $hash . '.json','w+') ) {
+			if( $pointer = fopen( $file ,'w+') ) {
 				fwrite($pointer, $_GET['data']);
 				$this->get($hash, $callback);
 			} else {
-				$this->view->load('{"errors":["message":"Could not write data to hash!"]}', $callback);
+				$this->view->loadScript('false', $callback);
 			}
 		} else {
-			$this->view->load('{"errors":["message":"The requested hash does not exist!"]}', $callback);
+			$this->view->loadScript('false', $callback);
 		}
 	}
 
+	/**
+	 * create()
+	 * creates blank file for data storage
+	 *
+	 * @param	callback (optional)
+	 * @return	loadScript( "$hash", $callback )
+	 */
 	function create($callback = null) {
 		while(true) {
-			$hash = md5(mt_rand(0,9999999));;
-			if ( !file_exists('store/JSONPS_' . $hash . '.json') ) {
-				if( $pointer = fopen('store/JSONPS_' . $hash . '.json','w+') ) {
+			$hash = md5(mt_rand(0,9999999));
+			$file = STORE_PATH . FILE_PRECURSOR . $hash . FILE_TYPE;
+			if ( !file_exists($file) ) {
+				if( $pointer = fopen($file,'w+') ) {
 					fclose($pointer);
-					$this->view->load('{"new_hash":"' . $hash . '"}', $callback);
+					$this->view->loadScript('"' . $hash . '"', $callback);
 				} else {
-					$this->view->load('{"errors":["message":"Could not create new hash!"]}', $callback);
+					$this->view->loadScript('false', $callback);
 				}
 				break;
 			}
 		}
 	}
-	
+
+	/**
+	 * _default()
+	 * default method
+	 *
+	 * Errors always.
+	 */
 	function _default() 
 	{	
-		echo '{"errors":["message":"Please select a function!"]}';
->>>>>>> e2100d0f0c91e9932bf6b25a1f58e5447c780711
+		$this->view->loadScript('false', $callback);
 	}
 
 }

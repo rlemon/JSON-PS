@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-
-heloo worls
-
-=======
 <?php
 	/*
 	json_storage
@@ -23,10 +18,10 @@ heloo worls
 			?key=value [json=JSON]
 			?callback [callback with message]
 	 * */
+	require('config/config.php');
 	require('libs/Model.php');
 	require('libs/View.php');
 	require('libs/Controller.php');
 	require('libs/Bootstrap.php');
 	$app = new Bootstrap();
 ?>
->>>>>>> e2100d0f0c91e9932bf6b25a1f58e5447c780711

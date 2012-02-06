@@ -2,14 +2,10 @@
 class Bootstrap {
 	function __construct() {
 		$url = isset( $_GET[ 'url' ] ) ? explode( '/', rtrim( $_GET[ 'url' ], '/' ) ) : null;
-<<<<<<< HEAD
-		print_r($url);
-=======
->>>>>>> e2100d0f0c91e9932bf6b25a1f58e5447c780711
 		if ( empty( $url[ 0 ] ) ) {
 			$url[ 0 ] = 'hash'; // default value
 		}
-		$file = 'controllers/' . $url[ 0 ] . '.php';
+		$file = CONTROLLER_PATH . $url[ 0 ] . '.php';
 		if ( !file_exists( $file ) ) {
 			throw new Exception('The page you requested does not exist!');
 		}
